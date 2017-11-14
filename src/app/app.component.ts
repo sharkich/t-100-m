@@ -1,3 +1,5 @@
+import {AppService} from './app.service';
+
 export class AppComponent {
 
     INFO_ELEMENT: HTMLElement;
@@ -15,27 +17,31 @@ export class AppComponent {
 
     mousemove($event) {
         this.check($event);
-        this.INFO_ELEMENT.style.left = `${$event.x + 4}px`;
-        this.INFO_ELEMENT.style.top = `${$event.y + 4}px`;
+        this.INFO_ELEMENT.style.left = `${$event.pageX + 4}px`;
+        this.INFO_ELEMENT.style.top = `${$event.pageY + 4}px`;
     }
 
     check($event) {
         const selectedText = window.getSelection().toString();
         if(selectedText.length) {
-            this.show(selectedText, $event);
+            const text = AppService.match(selectedText);
+            if (text) {
+                this.show(text, $event);
+            }
         } else {
             this.hide();
         }
     }
 
     show(selectedText: string, $event) {
-        console.log('Selected:', selectedText);
         this.selectedText = selectedText;
-        this.INFO_ELEMENT.innerText = this.selectedText;
-        this.INFO_ELEMENT.style.left = `${$event.x}px`;
-        this.INFO_ELEMENT.style.top = `${$event.y}px`;
-        this.INFO_ELEMENT.style.display = 'block';
-        document.addEventListener('mousemove', this.mousemoveBind);
+        if (this.INFO_ELEMENT.style.display !== 'block') {
+            this.INFO_ELEMENT.innerText = this.selectedText;
+            this.INFO_ELEMENT.style.left = `${$event.x}px`;
+            this.INFO_ELEMENT.style.top = `${$event.y}px`;
+            this.INFO_ELEMENT.style.display = 'block';
+            document.addEventListener('mousemove', this.mousemoveBind);
+        }
     }
 
     hide() {
