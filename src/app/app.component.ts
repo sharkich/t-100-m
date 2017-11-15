@@ -35,13 +35,12 @@ export class AppComponent {
 
     show(selectedText: string, $event) {
         this.selectedText = selectedText;
-        if (this.INFO_ELEMENT.style.display !== 'block') {
-            this.INFO_ELEMENT.innerHTML = this.selectedText;
-            this.INFO_ELEMENT.style.left = `${$event.x}px`;
-            this.INFO_ELEMENT.style.top = `${$event.y}px`;
-            this.INFO_ELEMENT.style.display = 'block';
-            document.addEventListener('mousemove', this.mousemoveBind);
-        }
+        this.INFO_ELEMENT.innerHTML = this.selectedText;
+        this.INFO_ELEMENT.style.left = `${$event.x}px`;
+        this.INFO_ELEMENT.style.top = `${$event.y}px`;
+        this.INFO_ELEMENT.style.display = 'block';
+        document.addEventListener('mousemove', this.mousemoveBind);
+        document.addEventListener('keyup', this.mousemoveBind);
     }
 
     hide() {

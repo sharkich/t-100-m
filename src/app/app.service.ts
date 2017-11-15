@@ -55,21 +55,30 @@ export class AppService {
     }
 
     static getNumbers(text: string = '') {
-        const numbers: number[] = [];
+        let numbers: number[] = [];
         let current: string = '';
         for (let i = 0; i < text.length; i++) {
             const char = text[i];
             if (this.isNumeral(char)) {
                 current += char;
             } else if (current) {
-                numbers.push(parseInt(current));
+                numbers = numbers.concat(this.getNumberS(current));
                 current = '';
             }
         }
         if (current) {
-            numbers.push(parseInt(current));
+            numbers = numbers.concat(this.getNumberS(current));
         }
         return numbers;
+    }
+
+    static getNumberS(text: string): number|number[] {
+        if (text.length < 4) {
+            return parseInt(text);
+        }
+
+        return text.match(/.{1,2}/g)
+            .map((txt) => parseInt(txt));
     }
 
     static isNumeral(litter: string = '') {
