@@ -1,6 +1,8 @@
 // // http://mnemonikon.ru/members/spr_f.htm
 export const NUMBERS_100 = {
     0: 'номерок',
+ '00': 'бочки',
+'000': 'МаНоМетр',
     1: 'еЖ',
     2: 'яД',
     3: 'уХо',
