@@ -9,7 +9,11 @@ export class AppService {
         const number = parseInt(text);
         const cellular = this.getCellular(number);
         if (cellular) {
-            return `${number}: ${NUMBERS_100[number]} (${cellular})`;
+            return `
+                <span class="t-100-m__info__source">${number}</span>: 
+                <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
+                <span class="t-100-m__info__additional">(${NUMBERS_1000[number]}, <span class="cellular">${cellular}</span>)</span>
+            `;
         }
         if (number === 0) {
             if (text === '0') {
@@ -23,14 +27,25 @@ export class AppService {
             }
         }
         if (number < 10) {
-            return `${number}: ${NUMBERS_100[number]} (${NUMBERS_10[number]})`; // , ${NUMBERS_1000[number]}
+            return `
+                <span class="t-100-m__info__source">${number}</span>: 
+                <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
+                <span class="t-100-m__info__additional">(${NUMBERS_10[number]}, ${NUMBERS_1000[number]})</span>
+            `;
         }
         if (number < 100) {
-            return `${number}: ${NUMBERS_100[number]}`; //  (${NUMBERS_1000[number]})
+            return `
+                <span class="t-100-m__info__source">${number}</span>: 
+                <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
+                <span class="t-100-m__info__additional">(${NUMBERS_1000[number]})</span>
+            `;
         }
-        // if (number < 1000) {
-        //     return `${number}: ${NUMBERS_1000[number]}`;
-        // }
+        if (number < 1000) {
+            return `
+                <span class="t-100-m__info__source">${number}</span>: 
+                <span class="t-100-m__info__main">${NUMBERS_1000[number]}</span>
+            `;
+        }
     }
 
     static getCellular(number: number) {

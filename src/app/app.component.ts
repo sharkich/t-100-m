@@ -36,7 +36,7 @@ export class AppComponent {
     show(selectedText: string, $event) {
         this.selectedText = selectedText;
         if (this.INFO_ELEMENT.style.display !== 'block') {
-            this.INFO_ELEMENT.innerText = this.selectedText;
+            this.INFO_ELEMENT.innerHTML = this.selectedText;
             this.INFO_ELEMENT.style.left = `${$event.x}px`;
             this.INFO_ELEMENT.style.top = `${$event.y}px`;
             this.INFO_ELEMENT.style.display = 'block';

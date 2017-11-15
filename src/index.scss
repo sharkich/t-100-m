@@ -4,17 +4,28 @@ https://ssl.gstatic.com/translate/buttons11.png
 
 .t-100-m__info {
     position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 1000;
+
     display: block;
     float: left;
     padding: 3px 4px;
     margin: 4px;
-    color: #333;
+
     border: 1px solid #666;
     background: #fff;
     border-radius: 3px;
-    top: 16px;
-    left: 16px;
-    z-index: 1000;
+
+    font-family: Georgia, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 12px; /* Preferred icon size */
+    color: #666;
+
+    &__source, &__main {
+        color: #333;
+    }
 }
 //@import "save-button.component/save-button";
 //@import "list.component/list";
