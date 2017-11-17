@@ -3,46 +3,51 @@ import {NUMBERS_10} from './numbers.10';
 import {NUMBERS_100} from './numbers.100';
 import {NUMBERS_1000} from './numbers.1000';
 
+interface ITransform {
+    string: string;
+    number: number;
+}
+
 export class AppService {
 
     static match(text: string) {
-        const numbers = this.getNumbers(text);
+        const transforms: ITransform[] = this.getNumbers(text);
 
-        if (!numbers.length) {
+        if (!transforms.length) {
             return;
         }
 
         let result = '';
 
-        for (let number of numbers) {
-            const cellular = this.getCellular(number);
+        for (let transform of transforms) {
+            const cellular = this.getCellular(transform.number);
             if (cellular) {
                 result += `<div class="t-100-m__info__one">
-                    <span class="t-100-m__info__source">${number}</span>: 
-                    <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
-                    <span class="t-100-m__info__additional">(${NUMBERS_1000[number]}, <span class="cellular">${cellular}</span>)</span>
+                    <span class="t-100-m__info__source">${transform.string}</span>: 
+                    <span class="t-100-m__info__main">${NUMBERS_100[transform.number]}</span>
+                    <span class="t-100-m__info__additional">(${NUMBERS_1000[transform.number]}, <span class="cellular">${cellular}</span>)</span>
                 </div>`;
-            } else if (number === 0) {
+            } else if (transform.number === 0) {
                 result += `<div class="t-100-m__info__one">
-                    <span class="t-100-m__info__source">${number}</span>: 
-                    <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
+                    <span class="t-100-m__info__source">${transform.string}</span>: 
+                    <span class="t-100-m__info__main">${NUMBERS_100[transform.number]}</span>
                 </div>`;
-            } else if (number < 10) {
+            } else if (transform.number < 10) {
                 result += `<div class="t-100-m__info__one">
-                    <span class="t-100-m__info__source">${number}</span>: 
-                    <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
-                    <span class="t-100-m__info__additional">(${NUMBERS_10[number]}, ${NUMBERS_1000[number]})</span>
+                    <span class="t-100-m__info__source">${transform.string}</span>: 
+                    <span class="t-100-m__info__main">${NUMBERS_100[transform.number]}</span>
+                    <span class="t-100-m__info__additional">(${NUMBERS_10[transform.number]}, ${NUMBERS_1000[transform.number]})</span>
                 </div>`;
-            } else if (number < 100) {
+            } else if (transform.number < 100) {
                 result += `<div class="t-100-m__info__one">
-                    <span class="t-100-m__info__source">${number}</span>: 
-                    <span class="t-100-m__info__main">${NUMBERS_100[number]}</span>
-                    <span class="t-100-m__info__additional">(${NUMBERS_1000[number]})</span>
+                    <span class="t-100-m__info__source">${transform.string}</span>: 
+                    <span class="t-100-m__info__main">${NUMBERS_100[transform.number]}</span>
+                    <span class="t-100-m__info__additional">(${NUMBERS_1000[transform.number]})</span>
                 </div>`;
-            } else if (number < 1000) {
+            } else if (transform.number < 1000) {
                 result += `<div class="t-100-m__info__one">
-                    <span class="t-100-m__info__source">${number}</span>: 
-                    <span class="t-100-m__info__main">${NUMBERS_1000[number]}</span>
+                    <span class="t-100-m__info__source">${transform.string}</span>: 
+                    <span class="t-100-m__info__main">${NUMBERS_1000[transform.number]}</span>
                 </div>`;
             }
         }
@@ -54,8 +59,8 @@ export class AppService {
         return Object.keys(CELLULARS).find((key) => CELLULARS[key].indexOf(number) !== -1);
     }
 
-    static getNumbers(text: string = '') {
-        let numbers: number[] = [];
+    static getNumbers(text: string = ''): ITransform[] {
+        let numbers: ITransform[] = [];
         let current: string = '';
         for (let i = 0; i < text.length; i++) {
             const char = text[i];
@@ -72,13 +77,19 @@ export class AppService {
         return numbers;
     }
 
-    static getNumberS(text: string): number|number[] {
+    static getNumberS(text: string): ITransform|ITransform[] {
         if (text.length < 4) {
-            return parseInt(text);
+            return <ITransform>{
+                string: text,
+                number: parseInt(text)
+            };
         }
 
         return text.match(/.{1,2}/g)
-            .map((txt) => parseInt(txt));
+            .map((txt) => ({
+                string: txt,
+                number: parseInt(txt)
+            }));
     }
 
     static isNumeral(litter: string = '') {
